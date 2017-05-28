@@ -62,7 +62,13 @@ public class DaoTareas implements IDAO<Tareas>{
 
     @Override
     public void eliminar(Integer id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sql = "DELETE FROM tareas WHERE idtarea = ?";
+
+        if (borrar == null) {
+            borrar = Conexion.getIntance().getCon().prepareStatement(sql);
+        }
+        borrar.setInt(1, id);
+        borrar.executeUpdate();
     }
 
     @Override
