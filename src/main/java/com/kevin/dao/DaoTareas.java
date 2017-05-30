@@ -38,24 +38,24 @@ public class DaoTareas implements IDAO<Tareas>{
     @Override
     public void insertar(Tareas entidad) throws SQLException {
          sql = "INSERT INTO tareas "
-                + "(idtarea,"
-                + "idasignatura,"
+               // + "(idtarea,"
+                + "(idasignatura,"
                  + "idusuario_prof,"
                 + "idusuario_alum,"
                 + "nombre,"
                 + "nota)"
-                + "VALUES (?,?,?,?,?,?)";
+                + "VALUES (?,?,?,?,?)";
         
         if (insertar== null) {
             insertar = Conexion.getIntance().getCon().prepareStatement(sql);            
         }
         
-        insertar.setInt(1, entidad.getIdtarea());
-        insertar.setInt(2, entidad.getIdasignatura());
-        insertar.setInt(3, entidad.getIdusuario_prof());
-        insertar.setInt(4, entidad.getIdusuario_alum());
-        insertar.setString(5, entidad.getNombre());
-        insertar.setDouble(6, entidad.getNota());        
+       // insertar.setInt(1, entidad.getIdtarea());
+        insertar.setInt(1, entidad.getIdasignatura());
+        insertar.setInt(2, entidad.getIdusuario_prof());
+        insertar.setInt(3, entidad.getIdusuario_alum());
+        insertar.setString(4, entidad.getNombre());
+        insertar.setDouble(5, entidad.getNota());        
         insertar.executeUpdate();
         
     }
@@ -135,6 +135,18 @@ public class DaoTareas implements IDAO<Tareas>{
         
         return tarea;
     }
+ 
+   public Tareas getUltimo() throws SQLException {
+    String query = "SELECT * FROM tareas "
+    + "ORDER BY idtarea DESC "
+    + "LIMIT 1";
+    
+    PreparedStatement last = Conexion.getIntance().getCon().prepareStatement(query);
+    ResultSet resultSet = last.executeQuery();
+
+    return resultSet != null && resultSet.next() ? cargar(resultSet) : null;
+}
+   
     
 }
 
