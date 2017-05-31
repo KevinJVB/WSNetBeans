@@ -43,13 +43,15 @@ public class RecursoTareas {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void post(Tareas tareas) {
+    public Tareas post(Tareas tareas) throws SQLException {
        
         try {
             DaoTareas.getInstanceTareas().insertar(tareas);
+             return DaoTareas.getInstanceTareas().getUltimo();
         } catch (SQLException ex) {
             Logger.getLogger(DaoTareas.class.getName()).log(Level.SEVERE, null, ex);
         }
+       return null;
     }
     
     @DELETE
@@ -65,16 +67,17 @@ public class RecursoTareas {
     
     @PUT
     @Path("{id}")
-    public void put(@PathParam("id")Integer id, Tareas tareas){
+    public Tareas put(@PathParam("id")Integer id, Tareas tareas){
         //Actualizar elemento
         tareas.setIdtarea(id);
         
         try {
             DaoTareas.getInstanceTareas().actualizar(tareas);
+            return DaoTareas.getInstanceTareas().getUltimo();
         } catch (SQLException ex) {
             Logger.getLogger(RecursoTareas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+       return null;
     }
     
 }
